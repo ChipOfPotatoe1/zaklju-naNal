@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iskalnik Iger</title>
+    <style>
+                @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0f0f0f;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #222;
+            border: 4px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.8);
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: calc(100% - 24px);
+            margin-bottom: 10px;
+            border: 3px solid #00ff00;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #111;
+            color: #00ff00;
+            outline: none;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px;
+            width: 100%;
+            background: #00ff00;
+            color: #111;
+            border: 3px solid #00ff00;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: #111;
+            color: #00ff00;
+            border: 3px solid #00ff00;
+            box-shadow: 0px 0px 10px #00ff00;
+        }
+
+
+        .game-info {
+            background-color: #111;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.5);
+            border: 2px solid #00ff00;
+            text-align: center;
+        }
+
+        .game-info img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            max-height: 200px;
+            border-radius: 8px;
+            display: block;
+            margin: 10px auto;
+            object-fit: contain;
+            border: 3px solid #00ff00;
+        }
+
+
+        .game-info h2 {
+            color: #00ff00;
+            text-shadow: 0px 0px 10px #00ff00;
+        }
+
+        .game-info p {
+            font-size: 14px;
+            color: #0f0;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Iskalnik Iger</h1>
+        <div class="search-section">
+            <form method="POST">
+                <input type="text" name="game_name" placeholder="Vnesite ime igre" required>
+                <button type="submit">Iskanje</button>
+            </form>
+        </div>
+        
+        {% if informacije %}
+        <div class="game-info">
+            <img src="{{ informacije[0]['background_image'] }}" alt="Slika igre">
+            
+            <div class="game-details-container">
+
+                <div class="game-details">
+                    <h2>{{ informacije[0]["name"] }}</h2>
+                    <p><strong>Žanr:</strong> {{ informacije[0]['genres'][0]['name'] }}</p>
+                    <p><strong>Ocena:</strong> {{ informacije[0]['metacritic'] or 'Ni ocene' }}</p>
+                    <p><strong>Datum izdaje:</strong> {{ informacije[0]['released'] }}</p>
+                    <a href="{{ informacije[0]['website'] }}" target="_blank">Poglej uradno stran</a>
+                </div>
+
+
+                <div class="game-description">
+                    {% if opis %}
+                    <h3>Opis igre:</h3>
+                    <p>{{ opis }}</p>
+                    {% else %}
+                    <p>Opis ni na voljo.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
