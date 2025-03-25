@@ -4,7 +4,7 @@ import requests
 #https://api.rawg.io/api/games?key=7482e2d4fb924a119eedc34862b5ce39&search=world of warcraft
 
 app = Flask(__name__)
-
+#lalala
 #API ključ in link do apija
 API_KEY = "7482e2d4fb924a119eedc34862b5ce39"
 BASE_URL = "https://api.rawg.io/api"
