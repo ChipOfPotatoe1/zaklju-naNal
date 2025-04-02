@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobrodošli v iskalniku</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2c1d12;
+            color: #e0c097;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background: #3e2a1f;
+            border: 4px solid #b5835a;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #b5835a;
+            color: #2c1d12;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: #8c5a40;
+            transform: scale(1.05);
+        }
+
+        /* Skrivanje sekcij, dokler niso izbrane */
+        .search-section {
+            display: none;
+        }
+
+        /* Ko je izbrana opcija, prikažemo ustrezni iskalnik */
+        #games:checked ~ .search-games {
+            display: block;
+        }
+        
+        #movies:checked ~ .search-movies {
+            display: block;
+        }
+
+        .search-section input {
+            padding: 12px;
+            width: calc(100% - 24px);
+            margin-bottom: 10px;
+            border: 2px solid #b5835a;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #5a3e2b;
+            color: #e0c097;
+            outline: none;
+            text-align: center;
+        }
+
+        .search-section button {
+            padding: 12px;
+            width: 100%;
+            background: #b5835a;
+            color: #2c1d12;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .search-section button:hover {
+            background: #8c5a40;
+            transform: scale(1.05);
+        }
+
+        .game-info, .movie-info {
+            background-color: #4a3224;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid #b5835a;
+            text-align: center;
+        }
+
+        .game-info img, .movie-info img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            max-height: 200px;
+            border-radius: 8px;
+            display: block;
+            margin: 10px auto;
+            object-fit: contain;
+            border: 2px solid #b5835a;
+        }
+
+        .game-info h2, .movie-info h2 {
+            color: #e0c097;
+            margin-bottom: 10px;
+        }
+
+        .game-info p, .movie-info p {
+            font-size: 14px;
+            color: #f5d5a3;
+            margin: 5px 0;
+        }
+
+        a {
+            color: #e0c097;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dobrodošli v iskalniku!</h1>
+        
+        <!-- Izbira, kateri iskalnik se bo prikazal -->
+        <form method="POST">
+            <label for="games" class="btn">Iskalnik iger</label>
+            <input type="radio" id="games" name="search-type" hidden>
+            <label for="movies" class="btn">Iskalnik serij in filmov</label>
+            <input type="radio" id="movies" name="search-type" hidden>
+        </form>
+
+        <!-- Iskalnik iger -->
+        <div class="search-section search-games">
+            <h2>Iskalnik iger</h2>
+            <form method="POST">
+                <input type="text" name="game_name" placeholder="Vnesite ime igre" required>
+                <button type="submit">Iskanje</button>
+            </form>
+            
+            {% if informacije %}
+            <div class="game-info">
+                <img src="{{ informacije[0]['background_image'] }}" alt="Slika igre">
+                
+                <div class="game-details-container">
+                    <div class="game-details">
+                        <h2>{{ informacije[0]["name"] }}</h2>
+                        <p><strong>Žanr:</strong> {{ informacije[0]['genres'][0]['name'] }}</p>
+                        <p><strong>Ocena:</strong> {{ informacije[0]['metacritic'] or 'Ni ocene' }}</p>
+                        <p><strong>Datum izdaje:</strong> {{ informacije[0]['released'] }}</p>
+                        <a href="{{ informacije[0]['website'] }}" target="_blank">Poglej uradno stran</a>
+                    </div>
+
+                    <div class="game-description">
+                        {% if opis %}
+                        <h3>Opis igre:</h3>
+                        <p>{{ opis }}</p>
+                        {% else %}
+                        <p>Opis ni na voljo.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Iskalnik serij in filmov -->
+        <div class="search-section search-movies">
+            <h2>Iskalnik serij in filmov</h2>
+            <form method="POST">
+                <input type="text" name="movie_name" placeholder="Vnesite ime serije ali filma" required>
+                <button type="submit">Iskanje</button>
+            </form>
+            
+            {% if informacije %}
+            <div class="movie-info">
+                <img src="{{ informacije[0]['background_image'] }}" alt="Slika filma/serije">
+                
+                <div class="movie-details-container">
+                    <div class="movie-details">
+                        <h2>{{ informacije[0]["name"] }}</h2>
+                        <p><strong>Žanr:</strong> {{ informacije[0]['genres'][0]['name'] }}</p>
+                        <p><strong>Ocena:</strong> {{ informacije[0]['metacritic'] or 'Ni ocene' }}</p>
+                        <p><strong>Datum izdaje:</strong> {{ informacije[0]['released'] }}</p>
+                        <a href="{{ informacije[0]['website'] }}" target="_blank">Poglej uradno stran</a>
+                    </div>
+
+                    <div class="movie-description">
+                        {% if opis %}
+                        <h3>Opis filma/serije:</h3>
+                        <p>{{ opis }}</p>
+                        {% else %}
+                        <p>Opis ni na voljo.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
