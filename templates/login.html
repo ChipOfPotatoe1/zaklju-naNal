@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prijava</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+form {
+    background-color: #fff;
+    padding: 30px 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 340px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-5px);
+}
+
+label {
+    font-weight: 600;
+    margin: 15px 0 8px;
+    display: block;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 14px;
+    margin: 5px 0 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2575fc;
+    outline: none;
+    box-shadow: 0 0 8px rgba(37, 117, 252, 0.3);
+    background-color: #fff;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #3a7bd5;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(58, 123, 213, 0.3);
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background-color: #2575fc;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(58, 123, 213, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(58, 123, 213, 0.3);
+}
+
+ul {
+    list-style-type: none;
+    padding: 12px 15px;
+    margin: 0 0 20px 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 340px;
+}
+
+li {
+    color: #e53935;
+    margin: 8px 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+a {
+    color: #3a7bd5;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #2575fc;
+    text-decoration: underline;
+}
+
+p {
+    text-align: center;
+    margin-top: 25px;
+    color: white;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation for form on load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form, h2, p {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    form, ul {
+        width: 90%;
+        padding: 25px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    input[type="text"], input[type="password"] {
+        padding: 12px;
+    }
+    
+    button {
+        padding: 12px;
+    }
+}
+    </style>
+</head>
+<body>
+    <h2>Prijava</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+        <label>Uporabniško ime:</label>
+        <input type="text" name="username" required><br>
+        <label>Geslo:</label>
+        <input type="password" name="password" required><br>
+        <button type="submit">Prijavi se</button>
+    </form>
+
+    <!-- Dodan link za registracijo -->
+    <p>Če še nimate računa, <a href="{{ url_for('register') }}">registrirajte se tukaj.</a></p>
+</body>
+</html>
