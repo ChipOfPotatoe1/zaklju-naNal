@@ -22,11 +22,16 @@ def iskanje_iger(ime_igre):
     vrnjeno = podatki.json() #spreminjanje za lepsi pogled
     return vrnjeno #vračanje json datoteke
 
-"""ime_igre = input("vnesi ime igre: ") #testiranje
-podatki = iskanje_iger(ime_igre)
-print(podatki)"""
-podatki = iskanje_iger(ime_igre) #pridobivanje podatkov o igri
 
-@app.route("/", methods=['GET']) #ustvarjanje poti do glavne strani
-def index(podatki):
-    
+@app.route("/", methods=['POST', 'GET']) #ustvarjanje poti do glavne strani, nastavimo na POST in GET (po defaultu nastavljena na GET) za posiljanje in prejemanje/prikazovanje informacij
+def index():
+    informacije = None
+    if request.method == 'POST':
+        ime_igre = request.form.get('ime_igre')
+        informacije = iskanje_iger(ime_igre)
+        print(informacije)
+
+    #return render_template("index.html", informacije=informacije)
+
+if __name__ == "__main__":
+    app.run(debug=True)
