@@ -3,7 +3,7 @@ import requests
 from tinydb import TinyDB, Query
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Za uporabo seje
+app.secret_key = '123'  # Za uporabo seje
 
 # API ključ in link do API-ja
 API_KEY = "7482e2d4fb924a119eedc34862b5ce39"
@@ -38,67 +38,69 @@ def search_show(show_name):
     data = response.json()
     return [item["show"] for item in data] if data else []
 
-# Funkcija za preverjanje prijave
-def check_login():
-    if 'username' not in session:
-        return False
-    return True
-
-# Domača stran - izbira prijave ali registracije
 @app.route("/", methods=['GET'])
 def home():
-    if check_login():  # Preveri, če je uporabnik prijavljen
-        return redirect(url_for('izbira'))  # Če je uporabnik prijavljen, ga preusmeri na izbiro
-    return render_template('home.html')  # Če ni prijavljen, prikaži domačo stran
+    if 'username' in session:
+        return redirect(url_for('izbira')) 
+    return render_template('home.html')
 
-# Registracija
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        # Preveri, ali uporabnik že obstaja
         if db.search(User.username == username):
             flash('Uporabniško ime je že zasedeno!')
             return redirect(url_for('register'))
 
-        # Shrani novega uporabnika
         db.insert({'username': username, 'password': password})
         return redirect(url_for('login'))
 
     return render_template('register.html')
 
-# Prijava
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        # Preveri uporabnika v bazi
+       
         user = db.search((User.username == username) & (User.password == password))
         if user:
             session['username'] = username
-            return redirect(url_for('izbira'))  # Preusmeri na izbira.html
+            return redirect(url_for('izbira'))
         else:
             flash('Nepravilen uporabnik ali geslo!')
             return redirect(url_for('login'))
 
     return render_template('login.html')
 
-# Odjava
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('home'))  # Po odjavi se vrni na domačo stran
+    return redirect(url_for('home'))
 
-# Izbira stran po prijavi
 @app.route("/izbira", methods=["GET", "POST"])
 def izbira():
-    if not check_login():  # Preveri, če je uporabnik prijavljen
-        return redirect(url_for('login'))  # Preusmeri na prijavo, če ni prijavljen
-    return render_template("izbira.html", username=session.get('username'))  # Prikaz izbire, če je prijavljen
+    if 'username' not in session:
+        return redirect(url_for('home'))
+    return render_template("index.html", username=session.get('username'))
+
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    informacije = None
+    opis = None
+    if request.method == "POST":
+        game_name = request.form["game_name"]
+        informacije = search_game(game_name)
+        
+        if informacije:
+            game_id = informacije[0]["id"]
+            opis = search_description(game_id)
+
+    return render_template("index.html", informacije=informacije, opis=opis)
 
 if __name__ == "__main__":
     app.run(debug=True)
