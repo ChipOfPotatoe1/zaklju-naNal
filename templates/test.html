@@ -1,62 +1,23 @@
 <!DOCTYPE html>
-<html lang="sl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Izberi tip iskanja</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            text-align: center;
-            margin-top: 100px;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #333;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 20px;
-        }
-
-        .button-container button {
-            padding: 15px 30px;
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .button-container button:hover {
-            background-color: #45a049;
-        }
-
-        .button-container button:active {
-            transform: translateY(2px);
-        }
-    </style>
+    <title>Document</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Dobrodošli, izberite, kaj želite iskati!</h1>
-        <div class="button-container">
-            <button onclick="window.location.href='index.html'">Igre</button>
-            <button onclick="window.location.href='/search_shows'">Serije</button>
-        </div>
-    </div>
+    <form method="get">
+        <input type="text" id="ime" name="ime" placeholder="vnesi ime igre...">
+        <button type="submit">išči</button>
+    </form>
+    {% if ime %}
+        <p>naslov: </p>{{ ime }}
+        <p>datum izdaje</p>{{ datum }}
+        <p>ocena igre:</p>{{ ocena }}<p>/5</p>
+        <img src="{{ slika }}">
+        <p>Opis:</p>
+        {{ opis }}
+    {% endif %}
 </body>
 </html>
