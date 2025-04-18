@@ -1,65 +1,23 @@
 <!DOCTYPE html>
-<html lang="sl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iskalnik Iger</title>
+    <title>index | brskalnik</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div>
-        <a href="/logout">Odjava</a>
-        <h1>Iskalnik Iger</h1>
-        <div>
-            <form method="POST">
-                <div>
-                    <input type="text" name="game_name" placeholder="Vnesite ime igre" required>
-                </div>
-                <button type="submit">Poišči igro</button>
-            </form>
-        </div>
-
-        {% if informacije %}
-        <div>
-            <div>
-                <img src="{{ informacije[0]['background_image'] }}" alt="Slika igre">
-                <h2>{{ informacije[0]["name"] }}</h2>
-            </div>
-
-            <div>
-                <div>
-                    <div>
-                        <strong>Žanr:</strong> {{ informacije[0]['genres'][0]['name'] }}
-                    </div>
-
-                    <div>
-                        <strong>Ocena:</strong>
-                        {% if informacije[0]['metacritic'] %}
-                            {{ informacije[0]['metacritic'] }}
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </div>
-
-                    <div>
-                        <strong>Datum izdaje:</strong> {{ informacije[0]['released'] }}
-                    </div>
-                </div>
-
-                <div>
-                    <h3>Opis igre</h3>
-                    {% if opis %}
-                    <p>{{ opis }}</p>
-                    {% else %}
-                    <p>Opis za to igro žal ni na voljo. Poskusite poiskati več informacij na uradni spletni strani igre.</p>
-                    {% endif %}
-                </div>
-
-                <div>
-                    <a href="{{ informacije[0]['website'] }}" target="_blank">Nazaj</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-    </div>
+    <form method="get">
+        <input type="text" id="ime" name="ime" placeholder="vnesi ime igre...">
+        <button type="submit">išči</button>
+    </form>
+    {% if ime %}
+        <p>naslov: </p>{{ ime }}
+        <p>datum izdaje</p>{{ datum }}
+        <p>ocena igre:</p>{{ ocena }}<p>/5</p>
+        <img src="{{ slika }}">
+        <p>Opis:</p>
+        {{ opis }}
+    {% endif %}
 </body>
 </html>
