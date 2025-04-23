@@ -25,7 +25,7 @@ def iskanje_opisa(ID):
     vrnjeno = podatki.json()
     return vrnjeno
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET']) #login oz. registracija
 def redirect():
     return render_template('login.html')
 
