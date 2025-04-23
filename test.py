@@ -42,7 +42,7 @@ def search_show(show_name):
 def home():
     if 'username' in session:
         return redirect(url_for('izbira')) 
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
