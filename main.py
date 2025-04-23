@@ -7,7 +7,7 @@ URL_igre = "https://api.rawg.io/api"
 
 app = Flask(__name__)
 
-#podatkovna baza
+#podatkovna baza: tinydb
 db = TinyDB('users.json')
 User = Query()
 
@@ -25,17 +25,17 @@ def iskanje_opisa(ID):
     vrnjeno = podatki.json()
     return vrnjeno
 
-@app.route('/', methods=['GET'])
+@app.route('/login', methods=['GET'])
 def redirect():
     return render_template('login.html')
 
-@app.route('/register', methods=['GET']) #registracija
+"""@app.route('/register', methods=['GET']) #registracija
 def register():
     username = request.args.get['username']
     geslo = request.args.get['password']
-    return render_template('register.html')
+    return render_template('register.html')"""
 
-@app.route('/index', methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     #pridobivanje podatkov
     ime_igre = request.args.get('ime')
