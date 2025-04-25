@@ -33,20 +33,21 @@ def iskanje_opisa(ID):
 @app.route('/login', methods=['POST', 'GET']) #login
 def login():
     if request.method == 'POST':
+        #dobi vnešene podatke
         username = request.form.get('username')
         password = request.form.get('password')
 
         uporabnik =db.get(User.username == username)
 
-        if uporabnik:
-            if uporabnik['password'] == password:
+        if uporabnik: #ta vrstica prever ce uporabnik sploh obstaja
+            if uporabnik['password'] == password: #tuki se prever ce je geslo pravilno, ce je pravilno userja da v session in preuredi na index
                 session['username'] = username
                 return redirect(url_for('index'))
-    return render_template('login.html')
+    return render_template('login.html') #ce se to pojavi, je neki narobe
 
-@app.route('/logout')
+@app.route('/logout') #logout
 def logout():
-    session.pop('username')
+    session.pop('username') #userjva da vn iz sessiona pa te vrne nazaj na login
     return redirect(url_for('login'))
 
 
