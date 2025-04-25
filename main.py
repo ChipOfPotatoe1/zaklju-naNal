@@ -2,6 +2,10 @@ import requests
 from flask import Flask, render_template, request, redirect, url_for, session
 from tinydb import TinyDB, Query
 
+#pip install requests
+#pip install flask
+#pip insatll tinydb
+
 API_kljuc_igre = "7482e2d4fb924a119eedc34862b5ce39"
 URL_igre = "https://api.rawg.io/api"
 
@@ -28,7 +32,23 @@ def iskanje_opisa(ID):
 
 @app.route('/login', methods=['POST', 'GET']) #login
 def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        uporabnik =db.get(User.username == username)
+
+        if uporabnik:
+            if uporabnik['password'] == password:
+                session['username'] = username
+                return redirect(url_for('index'))
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect(url_for('login'))
+
 
 @app.route('/register', methods=['GET', 'POST']) #registracija
 def register():
@@ -45,7 +65,7 @@ def register():
 def index():
     #preveri če je uporabnik prijavljen notri, če ni ga vrže na login
     if 'username' not in session:
-        return redirect(url_for('register'))
+        return redirect(url_for('login'))
     
     #pridobivanje podatkov
     ime_igre = request.args.get('ime')

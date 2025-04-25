@@ -19,5 +19,8 @@
         <p>Opis:</p>
         {{ opis }}
     {% endif %}
+    <form action="{{ url_for('logout') }}" method="get">
+        <button type="submit">Odjava</button>
+    </form>
 </body>
 </html>

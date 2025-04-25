@@ -106,11 +106,12 @@
     </style>
 </head>
 <body>
-    <form method="get">
+    <form action="/login" method="post">
+        <h1>Prijava</h1>
         <input type="text" id="username" name="username" placeholder="vnesi username">
         <input type="password" id="password" name="password" placeholder="vnesi geslo">
         <button type="submit">Prijavi se</button>
-        <a href="register.html">Še nimaš računa? Klikni tukaj</a>
+        <a href="{{ url_for('register') }}">Še nimaš računa? Klikni tukaj</a>
     </form>
 </body>
 </html>
