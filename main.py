@@ -42,7 +42,7 @@ def login():
         if uporabnik: #ta vrstica prever ce uporabnik sploh obstaja
             if uporabnik['password'] == password: #tuki se prever ce je geslo pravilno, ce je pravilno userja da v session in preuredi na index
                 session['username'] = username
-                return redirect(url_for('index'))
+                return redirect(url_for('izbira'))
     return render_template('login.html') #ce se to pojavi, je neki narobe
 
 @app.route('/logout') #logout
@@ -88,6 +88,11 @@ def index():
     
     else: # če ni vnešeno (else) se prikaže samo vrstica za iskanje, če tega if stavka ni se prikažejo privzete vrednosti"""
         return render_template('index.html')
+
+@app.route('/izbira')
+def izbira():
+    return render_template('izbira.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
