@@ -8,6 +8,7 @@ from tinydb import TinyDB, Query
 
 API_kljuc_igre = "7482e2d4fb924a119eedc34862b5ce39"
 URL_igre = "https://api.rawg.io/api"
+URL_serije = 'https://api.tvmaze.com/search/shows?'
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -26,6 +27,13 @@ def iskanje_iger(ime_igre):
 #iskanje opisa igre
 def iskanje_opisa(ID):
     url = f"{URL_igre}/games/{ID}?key={API_kljuc_igre}"
+    podatki = requests.get(url)
+    vrnjeno = podatki.json()
+    return vrnjeno
+
+#iskanje serije
+def iskanje_serije(ime_serije):
+    url = f"{URL_serije}q={ime_serije}"
     podatki = requests.get(url)
     vrnjeno = podatki.json()
     return vrnjeno
@@ -90,9 +98,24 @@ def index():
         return render_template('index.html')
 
 @app.route('/izbira')
-def izbira():
+def izbira(): #tuki ns preusmer da izberemo stvar k jo hocemo iskat
     return render_template('izbira.html')
 
+@app.route('/serije', methods=['GET'])
+def serije():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    ime_serije = request.args.get('ime')
+    podatki = iskanje_serije(ime_serije)
+
+    if ime_serije:
+        #print(podatki)
+        ime = podatki[0]['show']['name']
+        jezik = podatki[9]['show']['language']
+        print(jezik)
+
+    return render_template('serije.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
