@@ -12,15 +12,18 @@
         <button type="submit">išči</button>
     </form>
     {% if ime %}
-        <p>naslov: </p>{{ ime }}
-        <p>datum izdaje</p>{{ datum }}
-        <p>ocena igre:</p>{{ ocena }}<p>/5</p>
+        <h2>naslov: </h2>{{ ime }}
+        <h2>datum izdaje: </h2>{{ datum }}
+        <h2>ocena igre (0-5): </h2>{{ ocena }}
         <img src="{{ slika }}">
-        <p>Opis:</p>
+        <h2>Opis: </h2>
         {{ opis }}
     {% endif %}
     <form action="{{ url_for('logout') }}" method="get">
         <button type="submit">Odjava</button>
+    </form>
+    <form action="{{ url_for('izbira') }}" method="get">
+        <button type="submit">Vrni se nazaj</button>
     </form>
 </body>
 </html>

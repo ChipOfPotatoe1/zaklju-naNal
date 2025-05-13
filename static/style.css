@@ -12,13 +12,42 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     line-height: 1.6;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Naslovi - rdečkasto-roza */
+h1, h2, h3, h4, h5, h6 {
+    color: #f06292; /* svetla rdečkasto-roza */
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+/* Vrednosti podatkov */
+h2 + * {
+    font-size: 20px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Slika igre */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 25px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Obrazec za iskanje */
 form {
     margin: 40px 0;
     display: flex;
     justify-content: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 input[type="text"] {
@@ -52,61 +81,11 @@ button:hover {
     background-color: #c2185b;
 }
 
-/* Game information section */
-p {
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-p:first-of-type {
-    margin-top: 30px;
-}
-
-/* Labels for game information */
-p:nth-child(odd):not(:last-child) {
-    color: #e91e63;
-    font-weight: bold;
-    font-size: 18px;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
-/* Game values */
-p + p:not(:last-child) {
-    font-size: 22px;
-    margin-bottom: 15px;
-}
-
-/* Rating display */
-p:nth-of-type(5) + p {
-    display: inline-block;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-p:nth-of-type(6) {
-    display: inline-block;
-    font-size: 18px;
-    color: #aaaaaa;
-}
-
-/* Game image */
-img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin: 25px 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-/* Game description */
-p:last-of-type + p {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 10px;
-    line-height: 1.8;
+/* Odjava gumb - ločen margin */
+form[action*="logout"] {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
 }
 
 /* Responsive design */
@@ -115,27 +94,23 @@ p:last-of-type + p {
         flex-direction: column;
         align-items: center;
     }
-    
+
     input[type="text"] {
         width: 100%;
     }
-    
+
     button {
         width: 50%;
     }
 }
 
-/* Animation for page load */
+/* Fade-in animacija */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-body {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-/* Fix HTML in description */
+/* Povezave (če so v opisu) */
 a {
     color: #64b5f6;
     text-decoration: none;

@@ -3,14 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>serije | brskalnik</title>
+    <title>Serije | Brskalnik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #f06292;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        h2 + * {
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Nov del za poravnavanje podatkov in slike */
+        .serija-info {
+            display: flex;
+            justify-content: space-between; /* Razporedimo podatke na levo in sliko na desno */
+            gap: 20px;
+            flex-wrap: wrap; /* Omogoči prilagodljivost na manjših zaslonih */
+            align-items: center; /* Poravnava slike in podatkov po vertikali */
+            margin-bottom: 30px;
+        }
+
+        .serija-info .podatki {
+            flex: 1;
+            min-width: 300px; /* Tako da se vsebina ne stisne preveč na ozkih zaslonih */
+        }
+
+        .serija-info img {
+            max-width: 25%; /* Slika bo majhna in poravnana na desno */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        img {
+            display: block;
+            height: auto;
+        }
+
+        form {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        form:first-of-type {
+            margin-top: 40px;
+            margin-bottom: 50px;
+        }
+
+        input[type="text"] {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            width: 60%;
+            max-width: 500px;
+            background-color: #2d2d2d;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: #999999;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c2185b;
+        }
+
+        form[action*="logout"],
+        form[action*="izbira"] {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            button {
+                width: 60%;
+            }
+
+            .serija-info {
+                flex-direction: column; /* Na manjših zaslonih slika in podatki pod seboj */
+                align-items: center;
+            }
+
+            .serija-info img {
+                max-width: 80%; /* Slika bo večja na manjših zaslonih */
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <form>
+    <form method="get">
         <input type="text" id="ime" name="ime" placeholder="Vnesi ime serije...">
-        <button type="submit">išči</button>
+        <button type="submit">Išči</button>
     </form>
-    <form>
+    {% if ime %}
+    <section class="serija-info">
+        <div class="podatki">
+            <h2>Naslov:</h2>
+            {{ ime }}
+
+            <h2>Datum Premiere:</h2>
+            {{ datum }}
+
+            <h2>Ocena (0-10):</h2>
+            {{ ocena }}
+
+            <h2>Jezik:</h2>
+            {{ jezik }}
+        </div>
+        <img src="{{ slika }}">
+    </section>
+    <section>
+        <h2>Opis:</h2>
+        <p>{{ opis }}</p>
+    </section>
+    {% endif %}
+    <form action="{{ url_for('logout') }}" method="get">
+        <button type="submit">Odjava</button>
+    </form>
+    <form action="{{ url_for('izbira') }}" method="get">
+        <button type="submit">Vrni se nazaj</button>
     </form>
 </body>
 </html>

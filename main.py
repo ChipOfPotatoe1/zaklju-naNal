@@ -9,6 +9,7 @@ from tinydb import TinyDB, Query
 API_kljuc_igre = "7482e2d4fb924a119eedc34862b5ce39"
 URL_igre = "https://api.rawg.io/api"
 URL_serije = 'https://api.tvmaze.com/search/shows?'
+#https://api.tvmaze.com/search/shows?q=supernatural
 
 app = Flask(__name__)
 app.secret_key = '123'
@@ -91,7 +92,7 @@ def index():
         #podatki o opisu igre
         podatkiOpis = iskanje_opisa(ID)
         opis = podatkiOpis['description']
-        print(ime, datum, ocena, slika, ID)
+        #print(ime, datum, ocena, slika, ID)
         return render_template('index.html', ime = ime, datum = datum, ocena = ocena, slika = slika, opis = opis)
     
     else: # če ni vnešeno (else) se prikaže samo vrstica za iskanje, če tega if stavka ni se prikažejo privzete vrednosti"""
@@ -101,7 +102,7 @@ def index():
 def izbira(): #tuki ns preusmer da izberemo stvar k jo hocemo iskat
     return render_template('izbira.html')
 
-@app.route('/serije', methods=['GET'])
+@app.route('/serije', methods=['GET']) #route za iskanje serij, na isto foro k za igre
 def serije():
     if 'username' not in session:
         return redirect(url_for('login'))
@@ -112,10 +113,15 @@ def serije():
     if ime_serije:
         #print(podatki)
         ime = podatki[0]['show']['name']
-        jezik = podatki[9]['show']['language']
-        print(jezik)
-
-    return render_template('serije.html')
+        jezik = podatki[0]['show']['language']
+        slika = podatki[0]['show']['image']['medium']
+        ocena = podatki[0]['show']['rating']['average']
+        opis = podatki[0]['show']['summary']
+        datum = podatki[0]['show']['premiered']
+        #print(opis)
+        return render_template('serije.html', ime = ime, jezik = jezik, slika = slika, ocena = ocena, opis = opis, datum = datum)
+    else:
+        return render_template('serije.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
