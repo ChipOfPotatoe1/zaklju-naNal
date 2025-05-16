@@ -20,7 +20,7 @@
         {{ opis }}
     {% endif %}
     <form action="{{ url_for('logout') }}" method="get">
-        <button type="submit">Odjava</button>
+        <button type="submit" style="background-color:red">Odjava</button>
     </form>
     <form action="{{ url_for('izbira') }}" method="get">
         <button type="submit">Vrni se nazaj</button>

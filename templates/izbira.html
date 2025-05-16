@@ -1,96 +1,201 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Izbira</title>
-    <style>
-        * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-body {
-    background-color: #121212;
-    color: #ffffff;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.container {
-    width: 100%;
-    max-width: 500px;
-}
-
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-form {
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-button {
-    padding: 12px 25px;
-    background-color: #e91e63;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #c2185b;
-}
-
-/* Animation for page load */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    form {
-        padding: 20px;
-        width: 90%;
-    }
-}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="button-container">
-            <form action="{{ url_for('index') }}" method="get">
-                <button type="submit">Prebrskaj igre</button>
-            </form>
-            <form action="{{ url_for('serije') }}" method="get">
-                <button type="submit">Prebrskaj serije</button>
-            </form>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Izbira</title>
+        <style>
+            * {
+                margin: 0; padding: 0; box-sizing: border-box;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            }
+            body {
+                background-color: #121212;
+                color: #fff;
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+                line-height: 1.6;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            .container {
+                width: 100%;
+                max-width: 500px;
+            }
+            h1 {
+                color: #e91e63; /* rdečkasto roza barva */
+                text-align: center;
+                margin-bottom: 25px; /* prostor pod naslovom */
+                font-weight: 700;
+                font-size: 2.2rem;
+            }
+            .button-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            form {
+                background-color: #1e1e1e;
+                padding: 30px;
+                border-radius: 10px;
+                width: 100%;
+                max-width: 500px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            button {
+                padding: 12px 25px;
+                background-color: #e91e63;
+                color: white;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.3s;
+                font-size: 16px;
+            }
+            button:hover {
+                background-color: #c2185b;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @media (max-width: 768px) {
+                form {
+                    padding: 20px;
+                    width: 90%;
+                }
+            }
+            .slideshow-wrapper {
+                overflow: hidden;
+                width: 100%;
+                margin-top: 40px;
+                border-top: 2px solid #333;
+                padding-top: 20px;
+                position: relative;
+                height: 320px; /* dovolj prostora za slike + naslove */
+            }
+            .slideshow {
+                display: flex;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                will-change: transform;
+            }
+            .slideshow-item {
+                flex: 0 0 auto;
+                width: 250px;
+                margin: 0 25px;
+                text-align: center;
+                color: #ccc;
+            }
+            .slideshow-item img {
+                width: 100%;
+                border-radius: 10px;
+                display: block;
+            }
+            .slideshow-item p {
+                margin-top: 8px;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Izberi kaj želiš iskati</h1>
+            <div class="button-container">
+                <form action="{{ url_for('index') }}" method="get">
+                    <button type="submit">Prebrskaj igre</button>
+                </form>
+                <form action="{{ url_for('serije') }}" method="get">
+                    <button type="submit">Prebrskaj serije</button>
+                </form>
+                <form action="{{ url_for('login') }}" method="get">
+                    <button type="submit" style="background-color:red"><strong>Odjava</strong></button>
+                </form>
+            </div>
+            <div class="slideshow-wrapper">
+                <div class="slideshow" id="slideshow"></div>
+            </div>
         </div>
-    </div>
-</body>
+        <script>
+            const apiKljuc = '7482e2d4fb924a119eedc34862b5ce39';
+
+            async function pridobiIgre() {
+                try {
+                    const response = await fetch(`https://api.rawg.io/api/games?page_size=10&key=${apiKljuc}`);
+                    if (!response.ok) {
+                        console.error('Napaka pri pridobivanju iger:', response.status, response.statusText);
+                        return;
+                    }
+                    const data = await response.json();
+
+                    const igre = data.results.filter(igra => igra.background_image).map(igra => ({
+                        url: igra.background_image,
+                        naslov: igra.name
+                    }));
+
+                    const slideshow = document.getElementById("slideshow");
+
+                    // Podvoji 3x da se premikajo gladko
+                    const podvojene = igre.concat(igre, igre);
+
+                    podvojene.forEach(igra => {
+                        const div = document.createElement("div");
+                        div.className = "slideshow-item";
+                        div.innerHTML = `
+                            <img src="${igra.url}" alt="${igra.naslov}">
+                            <p>${igra.naslov}</p>
+                        `;
+                        slideshow.appendChild(div);
+                    });
+
+                    // počaka da so slike naložene pa izračuna širino
+                    await new Promise(resolve => {
+                        let loadedCount = 0;
+                        const images = slideshow.querySelectorAll('img');
+                        images.forEach(img => {
+                            if (img.complete) {
+                                loadedCount++;
+                            } else {
+                                img.onload = () => {
+                                    loadedCount++;
+                                    if (loadedCount === images.length) resolve();
+                                };
+                                img.onerror = () => {
+                                    loadedCount++;
+                                    if (loadedCount === images.length) resolve();
+                                };
+                            }
+                        });
+                        if (loadedCount === images.length) resolve();
+                    });
+
+                    // nastavitve animacije za css
+                    const width = slideshow.scrollWidth / 3;  // širina za slike, mogl smo potrojit da se slike ponaulajo
+                    let posX = 0;
+                    const speed = 1; // nastavi hitrost, večja vrednost k je hitrejs bo slo
+
+                    function animate() {
+                        posX -= speed;
+                        if (posX <= -width) posX = 0; // reset na začetk, da je neskončno
+                        slideshow.style.transform = `translateX(${posX}px)`;
+                        requestAnimationFrame(animate);
+                    }
+                    animate();
+                } catch (error) {
+                    console.error('Napaka:', error);
+                }
+            }
+            pridobiIgre();
+        </script>
+    </body>
 </html>
