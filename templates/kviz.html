@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kviz | brskalnik iger</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            color: #f06292;
+            margin-bottom: 30px;
+        }
+
+        .slika-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .slika-blok {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 250px;
+        }
+
+        .slika-blok img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .slika-blok input[type="text"] {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            width: 100%;
+            background-color: #2d2d2d;
+            color: white;
+            font-size: 14px;
+        }
+
+        .slika-blok input::placeholder {
+            color: #aaa;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c2185b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <div class="slika-container">
+            <div class="slika-blok">
+                <img src="{{ slika1 }}" alt="Igra 1">
+                <input type="text" name="ime1" placeholder="Vnesi ime igre 1...">
+                <input type="hidden" name="pravilno1" value="{{ ime1 }}">
+            </div>
+
+            <div class="slika-blok">
+                <img src="{{ slika2 }}" alt="Igra 2">
+                <input type="text" name="ime2" placeholder="Vnesi ime igre 2...">
+                <input type="hidden" name="pravilno2" value="{{ ime2 }}">
+            </div>
+
+            <div class="slika-blok">
+                <img src="{{ slika3 }}" alt="Igra 3">
+                <input type="text" name="ime3" placeholder="Vnesi ime igre 3...">
+                <input type="hidden" name="pravilno3" value="{{ ime3 }}">
+            </div>
+        </div>
+
+        <button type="submit">Potrdi</button>
+    </form>
+
+</body>
+</html>
