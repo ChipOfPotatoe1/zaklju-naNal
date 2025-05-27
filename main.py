@@ -124,22 +124,24 @@ def serije():
         return render_template('serije.html')
 
 #kviz o igrah, da stran ne bo tako dougočasna
-@app.route('/kviz', methods=['GET', "POST"])
+@app.route('/kviz', methods=['GET', 'POST'])
 def kviz():
+    rezultat = ''
     if 'username' not in session:
         return redirect(url_for('login'))
-        
-    if method == 'POST':    #če smo vnesli imena se to izvede
-        #odgovori
-        odgovor1 = request.form['ime1'].strip().lower() #strip in lower odstranita vse okoli besed pa vse črke spremenita v male za vsak slučaj če uporabnik napiše ime z malo
+
+    if request.method == 'POST':
+        # Dobimo odgovore uporabnika
+        odgovor1 = request.form['ime1'].strip().lower()
         odgovor2 = request.form['ime2'].strip().lower()
         odgovor3 = request.form['ime3'].strip().lower()
 
-        #pravilni odgovori
+        # Dobimo pravilne odgovore
         pravilno1 = request.form['pravilno1'].strip().lower()
         pravilno2 = request.form['pravilno2'].strip().lower()
         pravilno3 = request.form['pravilno3'].strip().lower()
 
+        # Preveri pravilne odgovore
         i = 0
         if odgovor1 == pravilno1:
             i += 1
@@ -147,29 +149,41 @@ def kviz():
             i += 1
         if odgovor3 == pravilno3:
             i += 1
-    st = random.randint(3, 21) #izbira random cifro za igro
-    url = f"{URL_igre}/games?key={API_kljuc_igre}&page={st}&page_size=30"
-    podatki = requests.get(url)
-    igre = podatki.json()['results']
-    igra1 = random.choice(igre) #izbere prvo igro
-    igra2 = random.choice(igre) #izbere drugo igro
-    igra3 = random. choice(igre) #izbere tretjo igro
-    
-    #slika in ime za prvo igro
-    slika1 = igra1["background_image"]
-    ime1 = igra1["name"]
-    #slika in ime za drugo igro
-    slika2 = igra2["background_image"]
-    ime2 = igra2["name"]
 
-    #slika in ime za tretjo igro
-    slika3 = igra3["background_image"]
-    ime3 = igra3["name"]
-    #print(igra1)
-    print(slika1)
-    print(slika2)
-    print(slika3)
-    return render_template('kviz.html', slika1 = slika1, slika2 = slika2, slika3 = slika3)
+        # z cifro nastavmo rezultat za izpis
+        if i == 0:
+            rezultat = "Noben odgovor ni pravilen."
+        elif i == 1:
+            rezultat = "Pravilen je en odgovor."
+        elif i == 2:
+            rezultat = "Pravilna sta dva odgovora."
+        elif i == 3:
+            rezultat = "Vsi odgovori so pravilni!"
 
+        # spet pošlje slike in imena iz POST
+        slika1 = request.form['slika1']
+        slika2 = request.form['slika2']
+        slika3 = request.form['slika3']
+        ime1 = request.form['pravilno1']
+        ime2 = request.form['pravilno2']
+        ime3 = request.form['pravilno3']
+
+    else:
+        st = random.randint(1, 30)
+        url = f"{URL_igre}/games?key={API_kljuc_igre}&page={st}&page_size=30"
+        podatki = requests.get(url)
+        igre = podatki.json()['results']
+        igra1 = random.choice(igre)
+        igra2 = random.choice(igre)
+        igra3 = random.choice(igre)
+
+        slika1 = igra1["background_image"]
+        ime1 = igra1["name"]
+        slika2 = igra2["background_image"]
+        ime2 = igra2["name"]
+        slika3 = igra3["background_image"]
+        ime3 = igra3["name"]
+
+    return render_template('kviz.html', slika1=slika1, slika2=slika2, slika3=slika3, ime1=ime1, ime2=ime2, ime3=ime3, rezultat=rezultat, pravilno1=ime1, pravilno2=ime2, pravilno3=ime3)
 if __name__ == "__main__":
     app.run(debug=True)

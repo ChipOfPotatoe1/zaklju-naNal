@@ -77,6 +77,13 @@
             background-color: #c2185b;
         }
 
+        .rezultat {
+            margin-top: 25px;
+            font-size: 20px;
+            color: #90caf9;
+            font-weight: bold;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -84,28 +91,56 @@
     </style>
 </head>
 <body>
+
     <form method="post">
         <div class="slika-container">
             <div class="slika-blok">
                 <img src="{{ slika1 }}" alt="Igra 1">
                 <input type="text" name="ime1" placeholder="Vnesi ime igre 1...">
-                <input type="hidden" name="pravilno1" value="{{ ime1 }}">
+                <input type="hidden" name="pravilno1" value="{{ pravilno1 }}">
             </div>
 
             <div class="slika-blok">
                 <img src="{{ slika2 }}" alt="Igra 2">
                 <input type="text" name="ime2" placeholder="Vnesi ime igre 2...">
-                <input type="hidden" name="pravilno2" value="{{ ime2 }}">
+                <input type="hidden" name="pravilno2" value="{{ pravilno2 }}">
             </div>
 
             <div class="slika-blok">
                 <img src="{{ slika3 }}" alt="Igra 3">
                 <input type="text" name="ime3" placeholder="Vnesi ime igre 3...">
-                <input type="hidden" name="pravilno3" value="{{ ime3 }}">
+                <input type="hidden" name="pravilno3" value="{{ pravilno3 }}">
             </div>
         </div>
 
+        <input type="hidden" name="slika1" value="{{ slika1 }}">
+        <input type="hidden" name="slika2" value="{{ slika2 }}">
+        <input type="hidden" name="slika3" value="{{ slika3 }}">
+
+        {% if rezultat %}
+            <div class="rezultat">{{ rezultat }}</div>
+            <div style="margin: 10px auto; padding: 20px; max-width: 500px; text-align: left; background-color: #1e1e1e; border-radius: 10px; color: #e0e0e0; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                <h3 style="color: #f48fb1; margin-bottom: 10px;">Pravilni odgovori:</h3>
+                <ul style="list-style: none; padding-left: 0; line-height: 1.8;">
+                    <li><strong>Igra 1:</strong> "{{ pravilno1 }}"</li>
+                    <li><strong>Igra 2:</strong> "{{ pravilno2 }}"</li>
+                    <li><strong>Igra 3:</strong> "{{ pravilno3 }}"</li>
+                </ul>
+            </div>
+        {% endif %}
+
         <button type="submit">Potrdi</button>
+        <button type="submit" formaction="/kviz" formmethod="get" style="margin-left: 15px; background-color: #607d8b;">Nova vprašanja</button>
+        <button type="submit" formaction="/izbira" formmethod="get">Končaj z kvizom</button>
+        <div style="margin-top: 30px; padding: 20px; max-width: 600px; margin-left: auto; margin-right: auto; background-color: #1e1e1e; border-left: 4px solid #f06292; border-radius: 8px; color: #cccccc; text-align: left; font-size: 15px; line-height: 1.6;">
+            <h3 style="color: #f48fb1; margin-bottom: 10px;">Navodila preden začneš igrati:</h3>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+                <li>Kviz ni case sensitive – velike/male črke niso pomembne.</li>
+                <li>Pazi na pravopisne napake – tudi manjše napake se štejejo kot napačen odgovor.</li>
+                <li>Če na primer manjka dvopičje ali ločilo, bo odgovor ocenjen kot napačen.</li>
+                <li>Klikni gumb <strong>Nova vprašanja</strong>, če želiš nove slike in igre.</li>
+            </ul>
+        </div>
     </form>
 
 </body>
